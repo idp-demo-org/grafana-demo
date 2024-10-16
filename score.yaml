@@ -16,6 +16,7 @@ containers:
       GF_SERVER_DOMAIN: ${resources.dns.host}
       GF_SERVER_ROOT_URL: https://${resources.dns.host}
       GF_DATABASE_TYPE: postgres
+      GF_DATABASE_NAME: ${resources.db.name}
       GF_DATABASE_HOST: ${resources.db.host}:${resources.db.port}
       GF_DATABASE_USER: ${resources.db.username}
       GF_DATABASE_PASSWORD: ${resources.db.password}
