@@ -7,13 +7,19 @@ service:
   ports:
     www:
       port: 80 # The port that the service will be exposed on
-      targetPort: 9898 # The port that the container will be listening on
+      targetPort: 3000 # The port that the container will be listening on
 
 containers:
   podinfo:
-    image: . # Set by pipeline
+    image: grafana/grafana:latest
     variables:
-      Hello: World
+      GF_SERVER_DOMAIN: ${resources.dns.host}
+      GF_SERVER_ROOT_URL: https://${resources.dns.host}
+      GF_DATABASE_TYPE: postgres
+      GF_DATABASE_HOST: ${resources.db.host}:${resources.db.port}
+      GF_DATABASE_USER: ${resources.db.username}
+      GF_DATABASE_PASSWORD: ${resources.db.password}
+      GF_DATABASE_SSL_MODE: disable
 
 resources:
   dns: # We need a DNS record to point to the service 
@@ -24,3 +30,5 @@ resources:
       host: ${resources.dns.host}
       path: /
       port: 80
+  db:
+    type: postgres
